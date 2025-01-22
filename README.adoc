@@ -1,15 +1,11 @@
-= Imagem Docker Personalizada do Airflow
+= Imagem Docker Personalizada do Spark
 
-Este repositório contém um Dockerfile para construir uma imagem Docker personalizada do Apache Airflow, incluindo bibliotecas adicionais para integração com diversas ferramentas de Big Data e Machine Learning.
+Este repositório contém um Dockerfile para construir uma imagem Docker personalizada do Apache Spark, incluindo bibliotecas adicionais para integração com diversas ferramentas de Big Data e Machine Learning.
 
 == Features
 
-* **Baseada no Airflow 2.10.4:** Utiliza a imagem oficial do Apache Airflow 2.10.4 como base.
-* **Bibliotecas Adicionais:** Inclui bibliotecas Python populares para integração com Spark, Kubernetes, Kafka, Flink, Pinot, MLflow, MinIO, Amazon S3, Snowflake, e outras.
-* **Java 17:** Instala o OpenJDK 17 para suporte a aplicações Java.
-* **Build Tools:** Inclui ferramentas de build essenciais (build-essential) para compilar bibliotecas adicionais, se necessário.
-* **Librdkafka:** Instala a biblioteca `librdkafka-dev` para suporte ao Kafka.
-
+* **Baseada no Spark 3.4.3:** Utiliza a imagem oficial do Apache Spark 3.4.3 como base.
+* **Bibliotecas Adicionais:** Inclui bibliotecas Java populares para integração com Iceberg, AWS, Hadoop e outras.
 
 == Getting Started
 
@@ -22,31 +18,33 @@ Este repositório contém um Dockerfile para construir uma imagem Docker persona
 1. Clone este repositório:
 
 ```bash
-git clone https://github.com/GersonRS/airflow.git
+git clone https://github.com/GersonRS/Spark.git
 ```
 
 2. Navegue até o diretório do repositório:
 
 ```bash
-cd airflow
+cd Spark
 ```
 
 3. Construa a imagem Docker:
 
 ```bash
-docker build -t gersonrs/airflow .
+docker build -t gersonrs/Spark .
 ```
 
 == Bibliotecas Inclusas
 
-As seguintes bibliotecas Python estão instaladas nesta imagem:
+As seguintes [dependencias](dependencies.txt) Java estão instaladas nesta imagem:
 
-// BEGIN_README_DOCS
-// END_README_DOCS
+* `com.amazonaws:aws-java-sdk-bundle:1.12.431`
+* `org.apache.iceberg:iceberg-spark-runtime-3.4_2.12:1.6.0`
+* `org.apache.hadoop:hadoop-aws:3.3.4`
+* `org.apache.hadoop:hadoop-common:3.3.4`
 
 == Dockerfile
 
-O Dockerfile utilizado para construir a imagem pode ser encontrado em [Dockerfile](Dockerfile).  Ele estende a imagem `apache/airflow:2.10.4`, instala as dependências adicionais e configura o ambiente.
+O Dockerfile utilizado para construir a imagem pode ser encontrado em [Dockerfile](Dockerfile).  Ele estende a imagem `spark:3.4.3`, instala as dependências adicionais e configura o ambiente.
 
 
 == Suporte
