@@ -1,4 +1,4 @@
-FROM spark:3.4.3
+FROM spark:3.5.0
 
 USER ${spark_uid}
 
@@ -12,6 +12,8 @@ RUN chmod 644 /prometheus/jmx_prometheus_javaagent-0.11.0.jar
 RUN mkdir -p /etc/metrics/conf
 COPY conf/metrics.properties /etc/metrics/conf
 COPY conf/prometheus.yaml /etc/metrics/conf
+COPY requirements.txt /
+RUN pip install -r /requirements.txt
 
 RUN chown -R spark:spark $SPARK_HOME/jars
 
