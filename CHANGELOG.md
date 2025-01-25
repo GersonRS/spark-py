@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/GersonRS/spark/compare/v1.1.0...v1.2.0) (2025-01-25)
+
+
+### 🚀 New Features
+
+* create new image with delta ([03355a8](https://github.com/GersonRS/spark/commit/03355a8cb411e1512bf4bf3726aee7dfda9d20f3))
+* downgrade dependencies jras ([cecf41f](https://github.com/GersonRS/spark/commit/cecf41ff1d9b58a4ccb2daff064228152cc77dd5))
+
 ## [1.1.0](https://github.com/GersonRS/spark/compare/v1.0.0...v1.1.0) (2025-01-22)
 
 
