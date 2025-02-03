@@ -1,11 +1,14 @@
 = Imagem Docker Personalizada do Spark
 
-Este repositório contém um Dockerfile para construir uma imagem Docker personalizada do Apache Spark, incluindo bibliotecas adicionais para integração com diversas ferramentas de Big Data e Machine Learning.
+Este repositório contém um Dockerfile para construir uma imagem Docker personalizada do Apache Spark (versão 3.5.0), incluindo bibliotecas adicionais para suporte ao Delta Lake, Hadoop AWS e monitoramento com Prometheus.
 
 == Features
 
-* **Baseada no Spark 3.4.3:** Utiliza a imagem oficial do Apache Spark 3.4.3 como base.
-* **Bibliotecas Adicionais:** Inclui bibliotecas Java populares para integração com Iceberg, AWS, Hadoop e outras.
+* **Baseada no Spark 3.5.0:** Utiliza a imagem oficial do Apache Spark 3.5.0 como base.
+* **Delta Lake:** Inclui as bibliotecas do Delta Lake para suporte a tabelas Delta.
+* **Hadoop AWS:**  Adiciona as bibliotecas do Hadoop AWS para integração com serviços da AWS, como S3.
+* **Monitoramento com Prometheus:** Configura o JMX Prometheus Java Agent para exportar métricas do Spark para o Prometheus.
+* **Bibliotecas Adicionais:** Permite a fácil inclusão de bibliotecas adicionais através do arquivo `dependencies.txt` e do script `download-jars.sh`.
 
 == Getting Started
 
@@ -33,19 +36,52 @@ cd Spark
 docker build -t gersonrs/Spark .
 ```
 
+== Adicionando Dependências
+
+O arquivo `dependencies.txt` lista as dependências adicionais a serem baixadas e instaladas na imagem.  Cada linha no arquivo deve seguir o formato:
+
+```
+<grupo>:<módulo>:<versão>
+```
+
+Por exemplo:
+
+```
+org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0
+```
+
+O script `download-jars.sh` é responsável por baixar os JARs correspondentes a essas dependências e colocá-los no diretório `$SPARK_HOME/jars`.
+
+
+== Explicação do `download-jars.sh`
+
+O script `download-jars.sh` automatiza o download de dependências JAR usando o Apache Ivy. Ele lê o arquivo `dependencies.txt`, extrai as informações de cada dependência (grupo, módulo e versão) e usa o Ivy para baixar o JAR correspondente.
+
+**Passo a passo:**
+
+1. **`set -e`:** Faz o script falhar imediatamente se algum comando retornar um código de erro diferente de zero.
+2. **`DEPENDENCIES_FILE="dependencies.txt"`:** Define o nome do arquivo de dependências.
+3. **`DESTINATION_DIR="$SPARK_HOME/jars"`:** Define o diretório de destino para os JARs baixados.
+4. **`while IFS= read -r dependency; do ... done < "$DEPENDENCIES_FILE"`:** Lê o arquivo `dependencies.txt` linha por linha.
+5. **`IFS=':' read -r group module version <<< "$dependency"`:** Divide cada linha (representando uma dependência) em três variáveis: `group`, `module` e `version`.
+6. **`java -jar "$SPARK_HOME/jars/ivy-2.5.1.jar" ...`:** Executa o Ivy para baixar a dependência especificada pelas variáveis `group`, `module` e `version`.
+7. **`-retrieve "$DESTINATION_DIR/[artifact]-[revision](-[classifier]).[ext]" ...`:** Especifica o padrão de nome do arquivo JAR a ser baixado.
+8. **`-types "jar"`:** Especifica que apenas arquivos JAR devem ser baixados.
+
+
 == Bibliotecas Inclusas
 
-As seguintes [dependencias](dependencies.txt) Java estão instaladas nesta imagem:
+As seguintes bibliotecas estão incluídas na imagem:
 
-* `com.amazonaws:aws-java-sdk-bundle:1.12.431`
-* `org.apache.iceberg:iceberg-spark-runtime-3.4_2.12:1.6.0`
+* `io.delta:delta-spark_2.12:3.2.0`
+* `io.delta:delta-storage:3.2.0`
 * `org.apache.hadoop:hadoop-aws:3.3.4`
 * `org.apache.hadoop:hadoop-common:3.3.4`
+*  Bibliotecas instaladas via `requirements.txt` (adicione a lista aqui)
 
 == Dockerfile
 
-O Dockerfile utilizado para construir a imagem pode ser encontrado em [Dockerfile](Dockerfile).  Ele estende a imagem `spark:3.4.3`, instala as dependências adicionais e configura o ambiente.
-
+O Dockerfile utilizado para construir a imagem pode ser encontrado em [Dockerfile](Dockerfile).  Ele estende a imagem `spark:3.5.0`, instala as dependências adicionais e configura o ambiente.
 
 == Suporte
 
