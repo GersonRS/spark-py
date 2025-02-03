@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/GersonRS/spark/compare/v1.2.0...v1.2.1) (2025-02-03)
+
+
+### 📚 Documentation
+
+* update documentation ([fe87dd8](https://github.com/GersonRS/spark/commit/fe87dd863362b3a52fa790db78ee13abb60fcba7))
+
 ## [1.2.0](https://github.com/GersonRS/spark/compare/v1.1.0...v1.2.0) (2025-01-25)
 
 
